@@ -159,9 +159,11 @@ void Looper::handleNoteOff(byte channel, byte pitch, byte velocity) {
  * gérés par pression.
  */
 void Looper::handleControlChange(byte channel, byte number, byte value) {
+#ifndef TEST
     if (number - 1 == UNDO || number - 1 == RECORD || number - 1 == DEL) {
         return;
     }
+#endif
     Module::handleControlChange(channel, number, value);
 }
 

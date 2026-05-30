@@ -10,6 +10,8 @@
 #include <Arduino.h>
 #include <MIDI.h>
 
+#define TEST
+
 using namespace MIDI_NAMESPACE;
 extern MidiInterface<SerialMIDI<HardwareSerial>> MIDI; /**<interface MIDI */
 extern int currentIndex;

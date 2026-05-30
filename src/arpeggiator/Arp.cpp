@@ -112,9 +112,11 @@ void Arp::handleNoteOff(byte channel, byte pitch, byte velocity) {
  */
 
 void Arp::handleControlChange(byte channel, byte number, byte value) {
+#ifndef TEST
     if (number - 1 == PLAY || number - 1 == RECORD) {
         return;
     }
+#endif
     Module::handleControlChange(channel, number, value);
 }
 

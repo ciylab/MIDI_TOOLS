@@ -154,9 +154,11 @@ void Time::handleClock() {
  * Inactif quand le paramètre est géré par pression.
  */
 void Time::handleControlChange(byte channel, byte number, byte value) {
+#ifndef TEST
     if(number - 1 == CLCK || number - 1 == METRONOME) {
         return;
     }
+#endif
     if (number - 1 == BPM && externalClock) {
         return;
     }

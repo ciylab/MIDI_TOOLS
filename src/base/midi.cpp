@@ -77,6 +77,9 @@ void handleControlChange(byte channel, byte number, byte value) {
 
 
 void handleProgramChange(byte channel, byte number) {
+    if (7 < number) {
+        return;
+    }
     showMenu = true;
     oled.putChar(8 * currentIndex, ' ');
     currentIndex = number % ms.size;

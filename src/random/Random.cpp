@@ -197,11 +197,13 @@ void Random::handleClock() {
  * Prise en charge pour la classe mère sauf pour la longueur et le gèle.
  */
 void Random::handleControlChange(byte channel, byte number, byte value) {
+#ifndef TEST
     if (number - 1 == FREEZE) {
         return;
     }
     if (number - 1 == LENGTH && parameters[FREEZE].value) {
         return;
     }
+#endif
     Module::handleControlChange(channel, number, value);
 }
