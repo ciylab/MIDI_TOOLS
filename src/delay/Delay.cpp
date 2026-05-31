@@ -31,7 +31,7 @@ void Delay::handle() {
     }
     note n = this->buf.notes[this->buf.queue];
     unsigned long now = millis();
-    if (n.p_time != 0 && now > n.p_time + this->getDelayTime()) {
+    if (n.p_time != 0 && now >= n.p_time + this->getDelayTime()) {
         if (n.noteOn) {
             MIDI.sendNoteOn(n.pitch, n.velocity, out);
             updatable = false;
@@ -40,8 +40,8 @@ void Delay::handle() {
             updatable = true;
         }
         if (n.feedback > 0) {
-            add(changePitch(n.pitch), changeVelocity(n.velocity), now, n.noteOn,
-                n.feedback - 1);
+            add(changePitch(n.pitch), changeVelocity(n.velocity), 
+                    now, n.noteOn, n.feedback - 1);
         }
         this->buf.notes[this->buf.queue].p_time = 0;
         this->buf.queue = (this->buf.queue + 1) % BUF_SIZE;
@@ -61,8 +61,8 @@ void Delay::handleNoteOn(byte channel, byte pitch, byte velocity) {
         MIDI.sendNoteOn(pitch, velocity, out);
         updatable = false;
         if (0 < this->parameters[FBK].value) {
-            add(changePitch(pitch), changeVelocity(velocity), millis(), true,
-                this->parameters[FBK].value - 1);
+            add(changePitch(pitch), changeVelocity(velocity), millis(), 
+                    true, this->parameters[FBK].value - 1);
         }
     }
 }
@@ -79,8 +79,8 @@ void Delay::handleNoteOff(byte channel, byte pitch, byte velocity) {
         MIDI.sendNoteOff(pitch, 0, out);
         updatable = true;
         if (0 < this->parameters[FBK].value) {
-            add(changePitch(pitch), changeVelocity(velocity), millis(), false,
-                this->parameters[FBK].value - 1);
+            add(changePitch(pitch), changeVelocity(velocity), millis(), 
+                    false, this->parameters[FBK].value - 1);
         }
     }
 }
