@@ -6,7 +6,7 @@
 #include "Sequencer.h"
 extern byte currentVelocity; /** voir Time.cpp */
 
-/*
+/**
  * @brief Gestion de l'horloge.
  *
  * Sur le tick on joue la note sauf si elle est désactivée.

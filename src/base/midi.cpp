@@ -152,9 +152,11 @@ void handleTime() {
  */
 
 void handleStart() {
+#ifndef TEST    
     if(!externalClock) {
         return;
     }
+#endif
     currentTick = 0;
     stopTick    = false;
     lastTime    = micros();
@@ -168,9 +170,11 @@ void handleStart() {
  */
 
 void handleStop() {
+#ifndef TEST    
     if(!externalClock) {
         return;
     }
+#endif
     stopTick = true;
     lastTime = micros();
     MIDI.sendRealTime(midi::Stop);
