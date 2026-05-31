@@ -1,9 +1,7 @@
 """
-Scénario : on défini un range avec min et max. On joue une note augmentée 
-d'un ton :
-- < min
-- comprise entre min et max
-- > max
+Scénario : on défini un rythme que 1 temps, avec une note sur le beat et 
+une autre décalée d'une double croche qui font donc :
+    ta poum . . ta poum . .
 """
 
 from utils import *

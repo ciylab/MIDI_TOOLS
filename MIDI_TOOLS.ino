@@ -119,6 +119,9 @@ void setup() {
     delay(2000);
     showMenu = false;
     handlePress0();
+#ifdef TEST
+    randomSeed(0);
+#endif
 }
 
 /**
