@@ -1,14 +1,27 @@
 /**
  * @file Random.cpp
  * @brief Gestion du générateur aléatoire.
+ *
+ * Les données proviennent de build_random_arrays.c
  */
 
 #include "Random.h"
 extern byte currentVelocity;
 
 // number of pitch lower than the one to compute with uniform distribution
-byte Random::count[NUM_SCALE][12];
-byte Random::scales[NUM_SCALE][12];
+byte Random::count[NUM_SCALE][12] = {
+    { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, },
+    { 1,  1,  2,  2,  3,  4,  4,  5,  5,  6,  6,  7, },
+    { 1,  1,  2,  2,  3,  3,  3,  4,  4,  5,  5,  5, },
+    { 1,  1,  2,  3,  3,  4,  4,  5,  6,  6,  6,  7, },
+};
+// boolean note in scale
+byte Random::scales[NUM_SCALE][12] = {
+    { 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, },
+    { 1,  0,  1,  0,  1,  1,  0,  1,  0,  1,  0,  1, },
+    { 1,  0,  1,  0,  1,  0,  0,  1,  0,  1,  0,  0, },
+    { 1,  0,  1,  1,  0,  1,  0,  1,  1,  0,  0,  1, },
+};
 byte Random::pitchs[NUM_SCALE][12] = { // i-th pitch in C
     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},  // chromatic
     {0, 2, 4, 5, 7, 9, 11},                  // major
@@ -19,27 +32,6 @@ byte Random::pitchs[NUM_SCALE][12] = { // i-th pitch in C
 int Random::scale_size[NUM_SCALE] = {12, 7, 5, 7};
 
 /**
- * @brief Initialisation des tableaux.
- *
- * À partir des hauteurs par gamme, initialise le tableau
- * des gammes et les compteurs de notes.
- */
-void Random::init_arrays() {
-    for(int scale = 0; scale < NUM_SCALE; scale++) {
-        for(int pitch = 0; pitch < 12; pitch++) {
-            scales[scale][pitch] = 0;
-        }
-        for(int i = 0; i < scale_size[scale]; i++) {
-            scales[scale][pitchs[scale][i]] = 1;
-        }
-        count[scale][0] = 1;
-        for(int i = 1; i < 12; i++) {
-            count[scale][i] = count[scale][i - 1] + scales[scale][i];
-        }
-    }
-}
-
-/**
  * @brief Retourne un nombre de notes.
  *
  * Pour une gamme donnée et une hauteur donnée, retourne
@@ -48,7 +40,7 @@ void Random::init_arrays() {
  */
 
 byte Random::get_count(byte scale, byte note) {
-    // lower or equal pitch 
+    // lower pitch 
     return count[scale][11] * (note / 12) + 
         count[scale][note % 12] -
         scales[scale][note % 12];

@@ -33,6 +33,7 @@ def test(clock):
         set_parameter_value(3, 0) # recording off
         time.sleep(delay)
         set_parameter_value(4, 127) # playing on
+        restart()
         time.sleep(F8_count * delay) # durée d'une séquence complète
     elif clock == "externe":
         go_to_page(TIME)

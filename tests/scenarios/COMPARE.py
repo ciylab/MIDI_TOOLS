@@ -17,7 +17,6 @@ def init():
     set_parameter_value(3, 57) # min = C4
     set_parameter_value(4, 75) # max = C5
     set_parameter_value(5, 34) # + un ton
-    
 
 def test(clock):
     print("************ test clock", clock)

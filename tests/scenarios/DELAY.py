@@ -33,7 +33,7 @@ def test(clock):
         time.sleep(1)
         # on lance une séquence complète
         midi_out.send_message([0xFA]) # début
-        time.sleep(delay)
+        time.sleep(delay_min)
         midi_out.send_message([144, 60, 100]) # note on
         send_pulse(delay, 3)
         midi_out.send_message([128, 60, 0]) # note off

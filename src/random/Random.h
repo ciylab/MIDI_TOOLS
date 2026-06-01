@@ -58,7 +58,6 @@ class Random : public Module {
         }
         this->updatable = true;
         this->setMenu();
-        this->init_arrays();
         this->out = parameters[OUT].value;
     }
 

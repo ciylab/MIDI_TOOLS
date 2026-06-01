@@ -2,8 +2,8 @@
 Scénario : on génère une mélodie aléatoire de 2 notes dans une pentatonique
 en D comprise entre C4 et G4. On gèle la séquence pour l'horloge externe.
 Pour garantir la reproductabilité, on met la graîne du générateur à 0 dans 
-le code source pour les tests. Il faut donc impérativement rebooter le module
-pour valider le test.
+le code source pour les tests. Il faut donc impérativement rebooter 
+le module pour valider le test.
 """
 
 from utils import *
@@ -18,7 +18,6 @@ def init():
     set_parameter_value(6, 68) # max = G4
     set_parameter_value(7, 25) # key D
     set_parameter_value(8, 86) # penta
-    return
 
 def test(clock):
     print("************ test clock", clock)

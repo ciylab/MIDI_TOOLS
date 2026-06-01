@@ -1,10 +1,12 @@
-from utils import *
+from scenarios.utils import *
 
-if len(sys.argv) == 1:
-    print( "Usage : python3 test_receive.py nom_du_module" )
-    exit()
+debug = True # affichage des tableaux activé
 
-debug = True 
+"""
+Le dictionnaire :
+    - clé = nom de l'algorithme
+    - valeur = sortie MIDI attendue
+"""
 
 d = {"TIME": [144, 72, 100] + [248] * 3 + [128, 72, 0] + [248] * 21 + \
         [144, 60, 100] + [248] * 3 + [128, 60, 0] + [248] * 21 + \
@@ -21,11 +23,19 @@ d = {"TIME": [144, 72, 100] + [248] * 3 + [128, 72, 0] + [248] * 21 + \
      "EUCLID": [144, 72, 100] + [248] * 3 + [128, 72, 0] + [248] * 3 + \
         [144, 60, 100] + [248] * 3 + [128, 60, 0] + [248] * 9,
      "RANDOM": [144, 64, 100] + [248] * 3 + [128, 64, 0] + [248] * 3 + \
-        [144, 66, 100] + [248] * 3 + [128, 66, 0] + [248] * 3}
+        [144, 66, 100] + [248] * 3 + [128, 66, 0] + [248] * 3,
+     "LOOPER": [248] * 3 + [144, 60, 100] + [248] * 3 + [128, 60, 0] + \
+             [248] * 18 + \
+             [248] * 3 + [144, 60, 100] + [248] * 3 + [128, 60, 0] + \
+             [248] * 18
+}
 
 expected = d[sys.argv[1]]
 
 def get_output():
+    """
+    Fonction qui retourne la partie de la sortie MIDI qui intéresse le test
+    """
     midi_in = rtmidi.MidiIn()
     midi_in.open_port(INPUT_PORT)
     midi_in.ignore_types(sysex=False, timing=False, active_sense=True)
@@ -49,12 +59,15 @@ def get_output():
     return result
 
 def print_test():
+    """
+    Simple fonction pour savoir si le test passe.
+    """
     if get_output() == expected:
         print("OK")
     else:
         print("KO")
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     if debug:
         print("expected:")
         print(expected)

@@ -9,8 +9,8 @@
 # FC FA et à BPM lent pour traiter convenablement les signaux 
 # d'horloge F8.
 #
-# Il est conseillé de redémarrer le module avant chaque test sauf à 
-# remettre tous les canaux de sorties sur OFF au préalable.
+# Il faut redémarrer le module avant chaque test pour remettre tous les 
+# paramètres aux valeurs par défaut.
 
 #!/bin/bash
 
@@ -20,4 +20,6 @@ then
     exit 1
 fi
 
-python3 receive.py $1 & python3 $1.py
+echo "ATTENTION : redémarrer le module avant chaque test"
+
+python3 receive.py $1 & python3 scenarios/$1.py
