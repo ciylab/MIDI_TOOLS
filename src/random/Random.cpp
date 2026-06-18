@@ -8,20 +8,31 @@
 #include "Random.h"
 extern byte currentVelocity;
 
-// number of pitch lower than the one to compute with uniform distribution
+/**
+ * Nombre de notes dont la hauteur est inférieure
+ * ou égale au rang.
+ */
 byte Random::count[NUM_SCALE][12] = {
     { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, },
     { 1,  1,  2,  2,  3,  4,  4,  5,  5,  6,  6,  7, },
     { 1,  1,  2,  2,  3,  3,  3,  4,  4,  5,  5,  5, },
     { 1,  1,  2,  3,  3,  4,  4,  5,  6,  6,  6,  7, },
 };
-// boolean note in scale
+
+/**
+ * Tableaux de 0 et 1 suivant que la note est dans la gamme
+ * ou pas.
+ */
 byte Random::scales[NUM_SCALE][12] = {
     { 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, },
     { 1,  0,  1,  0,  1,  1,  0,  1,  0,  1,  0,  1, },
     { 1,  0,  1,  0,  1,  0,  0,  1,  0,  1,  0,  0, },
     { 1,  0,  1,  1,  0,  1,  0,  1,  1,  0,  0,  1, },
 };
+
+/**
+ * Rang des notes de la gamme.
+ */
 byte Random::pitchs[NUM_SCALE][12] = { // i-th pitch in C
     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},  // chromatic
     {0, 2, 4, 5, 7, 9, 11},                  // major
