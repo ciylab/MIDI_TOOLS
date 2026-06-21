@@ -40,8 +40,6 @@ byte Random::pitchs[NUM_SCALE][12] = { // i-th pitch in C
     {0, 2, 3, 5, 7, 8, 11},                  // harmonic
 };
 
-int Random::scale_size[NUM_SCALE] = {12, 7, 5, 7};
-
 /**
  * @brief Retourne un nombre de notes.
  *
@@ -52,9 +50,9 @@ int Random::scale_size[NUM_SCALE] = {12, 7, 5, 7};
 
 byte Random::get_count(byte scale, byte note) {
     // lower pitch 
-    return count[scale][11] * (note / 12) + 
-        count[scale][note % 12] -
-        scales[scale][note % 12];
+    int size = count[scale][11];
+    return size * (note / 12) + 
+        count[scale][note % 12] - scales[scale][note % 12];
 }
 
 /**
@@ -64,8 +62,8 @@ byte Random::get_count(byte scale, byte note) {
  * la hauteur correspondante.
  */
 byte Random::get_pitch(byte scale, byte rank) {
-    return 12 * (rank / scale_size[scale]) + 
-        pitchs[scale][rank % scale_size[scale]];
+    int size = count[scale][11];
+    return 12 * (rank / size) + pitchs[scale][rank % size];
 }
 
 /**
@@ -76,19 +74,12 @@ byte Random::get_pitch(byte scale, byte rank) {
  * et max (exclus) pour un tirage uniforme.
  */
 byte Random::rand_note(byte min, byte max, byte tone, byte scale) {
-    int a = get_count(scale, min - tone + 12);
-    int b = get_count(scale, max - tone + 12);
-    if(a == b) {
-        return 0;
-    }
+    int a = get_count(scale, min + 12 - tone);
+    int b = get_count(scale, max + 12 - tone);
     // rank in the C range with uniform distribution
-    int r = random(a, b);
+    int rank = random(a, b);
     // pitch in tone
-    int note = tone + get_pitch(scale, r);
-    if(max <= note) {
-        note -= 12;
-    }
-    return note;
+    return tone + get_pitch(scale, rank) - 12;
 }
 
 /**
