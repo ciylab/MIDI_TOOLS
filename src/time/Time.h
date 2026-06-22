@@ -33,12 +33,12 @@ class Time : public Module {
         parameters[BPM].value = parameters[BPM].buffer = BPM_DEFAULT;
         parameters[BPM].min = BPM_MIN;
         parameters[BPM].max = BPM_MAX;
-        strcpy(parameters[METER].name, "METER");
+        strcpy(parameters[METER].name, "BAR");
         parameters[METER].max = 6;
-        strcpy(this->parameters[FIRST].name, "DOWN");
-        parameters[FIRST].value = parameters[FIRST].buffer = MIDDLE_C;
+        strcpy(this->parameters[FIRST].name, "FIRST");
+        parameters[FIRST].value = parameters[FIRST].buffer = 48;
         strcpy(this->parameters[OTHER].name, "BEAT");
-        parameters[OTHER].value = parameters[OTHER].buffer = MIDDLE_C;
+        parameters[OTHER].value = parameters[OTHER].buffer = 36;
         parameters[FIRST].min = parameters[OTHER].min = NOTE_MIN;
         parameters[FIRST].max = parameters[OTHER].max = NOTE_MAX;
         strcpy(this->parameters[METRONOME].name, "METRON");
