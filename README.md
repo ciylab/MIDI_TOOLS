@@ -5,8 +5,11 @@ signal et le transforme à volonté en fonction des algorithmes disponibles.
 
 ## Exemple de configuration 
 
-Branché en loopback sur un Yamaha reface CP (entrée <-> sortie) il permet
-d'enregistrer des séquences pour les jouer en boucle. Ce synthétiseur étant
+Branché en loopback sur un Yamaha reface CP :
+
+	Reface MIDI out -> Module -> Reface MIDI in
+
+il permet d'enregistrer des séquences pour les jouer en boucle. Ce synthétiseur étant
 polyphonique, on peut très bien l'utiliser simultanément pour une ligne de 
 basse et un lead.
 
