@@ -14,3 +14,11 @@ polyphonique, on peut très bien l'utiliser simultanément pour une ligne de
 basse et un lead.
 
 ![demo](docs/demo.jpg)
+
+## Avec un PC
+
+Branché en loopback sur un PC :
+
+	Clavier virtuel -> Module -> Synthé virtuel
+	
+![daw](docs/daw.jpg)
