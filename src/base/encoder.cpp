@@ -71,7 +71,11 @@ void handlePress0() {
 
 
 void handleLongPress0() {
+#ifdef NANOR4
+    NVIC_SystemReset();
+#else
     asm volatile("jmp 0x00");
+#endif
 }
 
 /**

@@ -20,6 +20,7 @@ CFLAGS      := --build-property build.extra_flags="$(CFLAGS)"
 BIN_DIR     := bin/$(board)
 SRCINO      := $(PROJECT).ino
 HEX         := $(BIN_DIR)/$(SRCINO).hex
+BIN         := $(BIN_DIR)/$(SRCINO).bin
 FLASH       := -U flash:w:bin/firmware.hex:i
 FUSES       := -U fuse2:w:0x01:m -U fuse5:w:0xC9:m -U fuse8:w:0x00:m
 UFLAGS      := $(FLASH)
@@ -58,18 +59,25 @@ else ifeq ($(board), thinary)
 # FQBN = MegaCoreX:megaavr:4808:BOD=disabled,pinout=nano_4808
 	FQBN = thinary:avr:nona4808:mode=off
 	MCU = atmega4808
-    PROGRAMMER = jtag2updi
-    PORT = /dev/ttyUSB0
-    BAUDRATE = 115200
-    UFLAGS += $(FUSES)
+	PROGRAMMER = jtag2updi
+	PORT = /dev/ttyUSB0
+	BAUDRATE = 115200
+	UFLAGS += $(FUSES)
+else ifeq ($(board), nanor4)
+	FQBN = arduino:renesas_uno:nanor4
+	PORT = /dev/ttyACM0
 endif
 
 all: debug compile clean docs
 
 compile: $(SRCINO)
 	$(info **************** build $(VERSION))
-	@arduino-cli compile --warnings all -b $(FQBN) $(CFLAGS) --output-dir $(BIN_DIR)
+	@arduino-cli compile --warnings all -b $(FQBN) $(CFLAGS) --output-dir $(BIN_DIR)	
+ifeq ($(board), nanor4)
+	@cp $(BIN) bin/firmware.bin
+else
 	@cp $(HEX) bin/firmware.hex
+endif
 
 clean: 
 	$(info **************** delete unused binaries files) 
@@ -79,8 +87,15 @@ upload:
 ifeq ($(board), every)
 	$(shell stty --file $(PORT) 1200)
 	$(shell stty --file $(PORT) 1200)
-endif 
+endif
+ifeq ($(board), nanor4)
+	arduino-cli upload --verbose --fqbn $(FQBN) --port $(PORT) --input-file bin/firmware.bin
+#dfu-util -R --device 0x2341:0x0074,:0x0374 -D bin/firmware.bin --alt 0
+#$(shell sleep 1)
+#$(shell cat $(PORT))
+else 
 	avrdude -p $(MCU) -c $(PROGRAMMER) -P $(PORT) -b $(BAUDRATE) -e -D $(UFLAGS)
+endif
 
 doxygen: 
 	$(info **************** create html)
@@ -130,6 +145,7 @@ help:
 	@echo "    - nano"
 	@echo "    - every"
 	@echo "    - thinary"
+	@echo "    - nanor4"
 	@echo "and OLED is"
 	@echo "    - SSD1306 (128x64)"
 	@echo "    - SH1106 (132x64)"
@@ -151,6 +167,7 @@ debug:
 	@echo cflags = $(CFLAGS)
 	@echo bin_dir = $(BIN_DIR)
 	@echo srcino = $(SRCINO)
+	@echo bin = $(BIN)
 	@echo hex = $(HEX)
 	@echo mcu = $(MCU)
 	@echo programmer = $(PROGRAMMER)
